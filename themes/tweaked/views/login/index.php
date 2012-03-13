@@ -1,4 +1,6 @@
 <script type="text/javascript">
+if (top != self) { top.location.replace(self.location.href); }
+
 var showMore = <?php echo $moreOptions; ?>;
 
 $(function () {
