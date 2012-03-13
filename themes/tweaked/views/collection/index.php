@@ -119,7 +119,7 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 		<?php if (x("command") != "findAll"):?>
 			<p><?php if (isset($count)): h($count);?> rows may be affected.<?php endif;?></p>
 		<?php else:?>
-			<p>No records is found.</p>
+			<p>No records were found.</p>
 		<?php endif;?>
 	<?php else: ?>
 		<p class="page"><?php h($page); ?> (<?php h(min($page->total(), $page->offset()+$page->size()));?>/<?php h($page->total());?>)</p>
