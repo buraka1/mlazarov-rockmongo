@@ -12,7 +12,7 @@ currentFields.push("<?php h(addslashes($field));?>");
 $criteria = x("criteria");
 if ($criteria == "{\n\t\t\t\t\t\n}")
 {
-    $criteria = "{\n    \n}\n";
+    $criteria = "{\n\n}\n";
 }
 ?>
 </script>
@@ -38,7 +38,7 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 <table>
 	<tr>
 		<td valign="top">
-			<textarea name="criteria" rows="5" cols="70" style="height:100px"><?php h($criteria);?></textarea><br/>
+			<textarea name="criteria" id="criteria" rows="5" cols="70" style="height:100px"><?php h($criteria);?></textarea><br/>
 			<div id="newobjInput" <?php if (x("command") !="modify"):?>style="display:none"<?php endif;?>>
 				New Object(see <a href="http://www.mongodb.org/display/DOCS/Updating" target="_blank">Updating</a> operators):<br/>
 				<textarea name="newobj" rows="5" cols="70"><?php h(x("newobj"));?></textarea>
@@ -410,6 +410,13 @@ Are you sure to set field "<span class="dialog_field"></span>" to NULL?
 })(jQuery);
 
 $(function() {
-    $("textarea[name=criteria]").texthistory();
+    //$("textarea#criteria").texthistory();
+    $("textarea#criteria").live("keypress", function(e)
+    {
+        if(e.which === 10)
+        {
+            $("form#query_form").submit();
+        }
+    });
 });
 </script>
