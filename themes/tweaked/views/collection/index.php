@@ -77,7 +77,7 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 				<option value="modify" <?php if(x("command")=="modify"):?>selected="selected"<?php endif;?>>modify</option>
 			</select>
             <span id="query-history">
-                <a href="#" id="rockhist-prev">&laquo;&nbsp;Prev</a>&nbsp;|&nbsp;<a href="#" id="rockhist-next" data-offset="1">Next&nbsp;&raquo;</a>
+                <a href="#" class="texthistory-prev" data-sel="textarea#criteria">&laquo;&nbsp;Prev</a>&nbsp;|&nbsp;<a href="#" class="texthistory-next" data-sel="textarea#criteria">Next&nbsp;&raquo;</a>&nbsp;|&nbsp;<a href="#" class="texthistory-clear" data-sel="textarea#criteria">Clear</a>
             </span>
 		</td>
 	</tr>
@@ -386,37 +386,32 @@ Are you sure to set field "<span class="dialog_field"></span>" to NULL?
 <div id="field_dialog_history" style="display:none">
 
 </div>
+<script src="/js/jquery.texthistory.js"></script>
 <script>
-(function($){
-
-    $.fn.extend({
-        texthistory: function(options)
-        {
-            var defaults = {
-                historySize: 50
-            }
-
-            var options =  $.extend(defaults, options);
-
-            return this.each(function()
-            {
-                var o = options;
-                var $this = $(this);
-                console.log($this);
-            });
-        }
-    });
-
-})(jQuery);
-
 $(function() {
-    //$("textarea#criteria").texthistory();
-    $("textarea#criteria").live("keypress", function(e)
-    {
-        if(e.which === 10)
+    $("textarea#criteria")
+        .texthistory()
+        .live("keypress", function(e)
         {
-            $("form#query_form").submit();
-        }
+            if(e.which === 10)
+            {
+                $("form#query_form").submit();
+            }
+        });
+    $("a.texthistory-prev").live("click", function()
+    {
+        var sel = $(this).attr("data-sel");
+        $(sel).texthistory("prev");
+    });
+    $("a.texthistory-next").live("click", function()
+    {
+        var sel = $(this).attr("data-sel");
+        $(sel).texthistory("next");
+    });
+    $("a.texthistory-clear").live("click", function()
+    {
+        var sel = $(this).attr("data-sel");
+        $(sel).texthistory("clear");
     });
 });
 </script>
