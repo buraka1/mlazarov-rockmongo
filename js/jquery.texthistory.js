@@ -113,6 +113,6 @@
         }
     });
 
-    $.texthistory = new TextHistory(); // singleton instance
+    $.texthistory = new TextHistory();
 
 })(jQuery);
