@@ -8,14 +8,14 @@
         
         if ($.inArray(options, getters) > -1)
         {
-            return $.texthistory['_' + options].apply($.maxlength, [this[0]].concat(otherArgs));
+            return $.texthistory['_' + options].apply($.texthistory, [this[0]].concat(otherArgs));
         }
 
         return this.each(function()
         {
             if (typeof options === 'string')
             {
-                $.texthistory['_' + options].apply($.maxlength, [this].concat(otherArgs)); 
+                $.texthistory['_' + options].apply($.texthistory, [this].concat(otherArgs)); 
             } 
             else
             {
