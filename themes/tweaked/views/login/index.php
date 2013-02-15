@@ -1,14 +1,19 @@
 <script type="text/javascript">
-if (top != self) { top.location.replace(self.location.href); }
-
 var showMore = <?php echo $moreOptions; ?>;
 
 $(function () {
 	showMore = !showMore;
-	show_more_options($("#more_options_btn")[0]);
+	r_show_more_options($("#more_options_btn")[0]);
+
+	//go to top window
+	if (window.self != window.top) {
+		if (window.parent.location.toString().match(/\?action=admin/)) {
+			window.parent.location.reload();
+		}
+	}
 });
 
-function show_more_options(btn) {
+function r_show_more_options(btn) {
 	if (!showMore) {
 		$("#more_options").show();
 		$(btn).html("Less &raquo;");
@@ -53,7 +58,7 @@ function show_more_options(btn) {
 			<td><input type="text" name="db" style="width:150px" value="<?php h($db); ?>"/><br/></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="#" onclick="return show_more_options(this)" id="more_options_btn">More &raquo;</a></td>
+			<td colspan="2"><a href="#" onclick="return r_show_more_options(this)" id="more_options_btn">More &raquo;</a></td>
 		</tr>
 		<tbody style="display:none" id="more_options">
 		<tr>
@@ -80,4 +85,6 @@ function show_more_options(btn) {
 		</tr>
 	</table>
 	</form>
+	
+	<?php hm("rockmongocredits") ?>
 </div>

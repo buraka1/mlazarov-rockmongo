@@ -34,6 +34,7 @@
         <script language="javascript">
             $(document).ready(function(){
                 //---Init Layout
+                var wsize=250;
                 $('body').layout({
                     defaults: {
                         applyDefaultStyles: false
@@ -44,9 +45,9 @@
                         slidable:false
                     },
                     west: {
-                        minSize: 120,
-                        maxSize: 400,
-                        size: 180,
+                        minSize: wsize,
+                        maxSize: 2*wsize,
+                        size: wsize,
                         resizable: true,
                         closable:true,
                         slidable:true

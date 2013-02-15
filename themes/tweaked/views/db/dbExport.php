@@ -8,6 +8,7 @@ function checkAll(obj) {
 
 
 <form method="post">
+<input type="hidden" name="can_download" value="0"/>
 
 <?php hm("collections"); ?> [<label><?php hm("all"); ?> <input type="checkbox" name="check_all" value="1" onclick="checkAll(this)"/></label>]
 <ul class="list">

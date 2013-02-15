@@ -1,3 +1,4 @@
+<!-- Global configuration -->
 <script language="javascript">
 var explainURL = "<?php h(url("collection.explainQuery"));?>";
 var currentURL = "<?php h($_SERVER["REQUEST_URI"]); ?>";
@@ -16,6 +17,8 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 }
 ?>
 </script>
+
+<!-- Import resources -->
 <script language="javascript" src="js/collection.js?v=<?php h(filemtime("js/collection.js")) ?>"></script>
 <script language="javascript" src="js/jquery-ui-1.8.4.custom.min.js"></script>
 <link rel="stylesheet" href="<?php render_theme_path() ?>/css/collection.css" media="all"/>
@@ -99,6 +102,7 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 				<?php if($field=="_id"): ?>disabled="disabled"<?php endif?>
 			/> <?php h($field); ?></label></li>
 	<?php endforeach; ?>
+		<li><input type="checkbox" name="use_freeform" value="yes" <?php if ($useFreeform == 'yes' && isset($freeformRaw)): ?>checked="checked"<?php endif; ?> /><input name="freeform" type="text" <?php if (isset($freeformRaw)): ?>value="<?= $freeformRaw; ?>"<?php endif; ?>/></li>
 	</ul>
 </div>
 <div id="query_hints_list" class="fieldsmenu">
@@ -114,6 +118,7 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 </form>
 </div>
 
+<!-- Records in collection -->
 <div id="records">
 	<?php if(!isset($page) || $page->total() == 0):?>
 		<?php if (x("command") != "findAll"):?>
@@ -284,6 +289,14 @@ Are you sure to set field "<span class="dialog_field"></span>" to NULL?
 		<td valign="top">Value:</td>
 		<td><select name="bool_value"><option value="true">True</option><option value="false">False</option></select></td>
 	</tr>
+	<tr class="integer_value">
+		<td valign="top">Value:</td>
+		<td><input type="text" name="integer_value"/></td>
+	</tr>
+	<tr class="long_value">
+		<td valign="top">Value:</td>
+		<td><input type="text" name="long_value"/></td>
+	</tr>	
 	<tr class="double_value">
 		<td valign="top">Value:</td>
 		<td><input type="text" name="double_value"/></td>
@@ -321,6 +334,14 @@ Are you sure to set field "<span class="dialog_field"></span>" to NULL?
 		<td valign="top">Value:</td>
 		<td><select name="bool_value"><option value="true">True</option><option value="false">False</option></select></td>
 	</tr>
+	<tr class="integer_value">
+		<td valign="top">Value:</td>
+		<td><input type="text" name="integer_value"/></td>
+	</tr>
+	<tr class="long_value">
+		<td valign="top">Value:</td>
+		<td><input type="text" name="long_value"/></td>
+	</tr>	
 	<tr class="double_value">
 		<td valign="top">Value:</td>
 		<td><input type="text" name="double_value"/></td>
