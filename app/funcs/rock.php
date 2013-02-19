@@ -127,8 +127,8 @@ function rock_id_string($id) {
 		return "rid_" . get_class($id) . ":" . $id->__toString();
 	}
 	if (is_scalar($id)) {
-	return "rid_" . gettype($id) . ":" . $id;
-}
+		return "rid_" . gettype($id) . ":" . $id;
+	}
 	return "rid_mixed:" . base64_encode(var_export($id, true));
 }
 

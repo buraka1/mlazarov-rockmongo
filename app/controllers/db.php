@@ -25,13 +25,13 @@ class DbController extends BaseController {
 			$ret["diskSize"] = $this->_formatBytes($ret["sizeOnDisk"]);
 		}
 		if(isset($ret["dataSize"])) {
-		$ret["dataSize"] = $this->_formatBytes($ret["dataSize"]);
+			$ret["dataSize"] = $this->_formatBytes($ret["dataSize"]);
 		}
 		if(isset($ret["storageSize"])) {
-		$ret["storageSize"] = $this->_formatBytes($ret["storageSize"]);
+			$ret["storageSize"] = $this->_formatBytes($ret["storageSize"]);
 		}
 		if(isset($ret["indexSize"])) {
-		$ret["indexSize"] = $this->_formatBytes($ret["indexSize"]);
+			$ret["indexSize"] = $this->_formatBytes($ret["indexSize"]);
 		}
 
 		
@@ -51,22 +51,22 @@ class DbController extends BaseController {
 			}
 		}
 		if(isset($ret["objects"])) {
-		$this->stats["Objects"] = $ret["objects"];
+			$this->stats["Objects"] = $ret["objects"];
 		}
 		if(isset($ret["dataSize"])) {
-		$this->stats["Data Size"] = $ret["dataSize"];
+			$this->stats["Data Size"] = $ret["dataSize"];
 		}
 		if(isset($ret["storageSize"])) {
-		$this->stats["Storage Size"] = $ret["storageSize"];
+			$this->stats["Storage Size"] = $ret["storageSize"];
 		}
 		if(isset($ret["numEvents"])) {
-		$this->stats["Extents"] = $ret["numExtents"];
+			$this->stats["Extents"] = $ret["numExtents"];
 		}
 		if(isset($ret["indexes"])) {
-		$this->stats["Indexes"] = $ret["indexes"];
+			$this->stats["Indexes"] = $ret["indexes"];
 		}
 		if(isset($ret["indexSize"])) { 
-		$this->stats["Index Size"] = $ret["indexSize"];
+			$this->stats["Index Size"] = $ret["indexSize"];
 		}
 
 		$this->display();
@@ -129,8 +129,8 @@ class DbController extends BaseController {
 			if ($this->target_auth) {
 				// "authenticate" can only be used between 1.0.1 - 1.2.11
 				if (RMongo::compareVersion("1.0.1") >= 0 && RMongo::compareVersion("1.2.11") < 0) {
-				$targetDb->authenticate($this->target_username, $this->target_password);
-			}
+					$targetDb->authenticate($this->target_username, $this->target_password);
+				}
 			}
 			$errors = array();
 			foreach ($this->selectedCollections as $collectionName) {
