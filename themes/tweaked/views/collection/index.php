@@ -9,13 +9,7 @@ var currentRecordsCount = <?php echo $recordsCount;?>;
 var currentFields = new Array();
 <?php foreach ($nativeFields as $field): if($field == "_id") {continue;}  ?>
 currentFields.push("<?php h(addslashes($field));?>");
-<?php endforeach;
-$criteria = x("criteria");
-if ($criteria == "{\n\t\t\t\t\t\n}")
-{
-    $criteria = "{\n\n}\n";
-}
-?>
+<?php endforeach;?>
 </script>
 
 <!-- Import resources -->
@@ -34,13 +28,19 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 
 <div class="query">
 <form method="get" id="query_form">
-<input type="hidden" name="db" value="<?php h($db);?>"/>
-<input type="hidden" name="collection" value="<?php h($collection);?>"/>
-<input type="hidden" name="action" value="<?php h(x("action"));?>"/>
-<input type="hidden" name="format" value="<?php h(x("format")); ?>"/>
+<input type="hidden" name="db" value="<?php h_escape($db);?>"/>
+<input type="hidden" name="collection" value="<?php h_escape($collection);?>"/>
+<input type="hidden" name="action" value="<?php h_escape(x("action"));?>"/>
+<input type="hidden" name="format" value="<?php h_escape(x("format")); ?>"/>
 <table>
 	<tr>
 		<td valign="top">
+<?php
+$criteria = x("criteria");
+if ($criteria == "{\n\t\t\t\t\t\n}") {
+    $criteria = "{\n\n}\n";
+}
+?>
 			<textarea name="criteria" id="criteria" rows="5" cols="70" style="height:100px"><?php h($criteria);?></textarea><br/>
 			<div id="newobjInput" <?php if (x("command") !="modify"):?>style="display:none"<?php endif;?>>
 				New Object(see <a href="http://www.mongodb.org/display/DOCS/Updating" target="_blank">Updating</a> operators):<br/>
@@ -50,9 +50,9 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 		<td valign="top" class="field_orders">
 			<!-- fields will be used in sorting -->
 			<p><input type="text" name="field[]" value="<?php h(rock_array_get(x("field"),0));?>" /> <select name="order[]"><option value="asc" <?php if (rock_array_get(x("order"),0)=="asc"):?>selected="selected"<?php endif;?>>ASC</option><option value="desc" <?php if (rock_array_get(x("order"),0)=="desc"):?>selected="selected"<?php endif;?>>DESC</option></select></p>
-			<p><input type="text" name="field[]" value="<?php h(rock_array_get(x("field"),1));?>" /> <select name="order[]"><option value="asc" <?php if (rock_array_get(x("order"),1)=="asc"):?>selected="selected"<?php endif;?>>ASC</option><option value="desc" <?php if (rock_array_get(x("order"),1)=="desc"):?>selected="selected"<?php endif;?>>DESC</option></select></p>
-			<p><input type="text" name="field[]" value="<?php h(rock_array_get(x("field"),2));?>" /> <select name="order[]"><option value="asc" <?php if (rock_array_get(x("order"),2)=="asc"):?>selected="selected"<?php endif;?>>ASC</option><option value="desc" <?php if (rock_array_get(x("order"),2)=="desc"):?>selected="selected"<?php endif;?>>DESC</option></select></p>
-			<p><input type="text" name="field[]" value="<?php h(rock_array_get(x("field"),3));?>" /> <select name="order[]"><option value="asc" <?php if (rock_array_get(x("order"),3)=="asc"):?>selected="selected"<?php endif;?>>ASC</option><option value="desc" <?php if (rock_array_get(x("order"),3)=="desc"):?>selected="selected"<?php endif;?>>DESC</option></select> </p>
+			<p><input type="text" name="field[]" value="<?php h_escape(rock_array_get(x("field"),1));?>" /> <select name="order[]"><option value="asc" <?php if (rock_array_get(x("order"),1)=="asc"):?>selected="selected"<?php endif;?>>ASC</option><option value="desc" <?php if (rock_array_get(x("order"),1)=="desc"):?>selected="selected"<?php endif;?>>DESC</option></select></p>
+			<p><input type="text" name="field[]" value="<?php h_escape(rock_array_get(x("field"),2));?>" /> <select name="order[]"><option value="asc" <?php if (rock_array_get(x("order"),2)=="asc"):?>selected="selected"<?php endif;?>>ASC</option><option value="desc" <?php if (rock_array_get(x("order"),2)=="desc"):?>selected="selected"<?php endif;?>>DESC</option></select></p>
+			<p><input type="text" name="field[]" value="<?php h_escape(rock_array_get(x("field"),3));?>" /> <select name="order[]"><option value="asc" <?php if (rock_array_get(x("order"),3)=="asc"):?>selected="selected"<?php endif;?>>ASC</option><option value="desc" <?php if (rock_array_get(x("order"),3)=="desc"):?>selected="selected"<?php endif;?>>DESC</option></select> </p>
 		</td>
 	</tr>
 	<tr>
@@ -189,12 +189,21 @@ if ($criteria == "{\n\t\t\t\t\t\n}")
 							"id" => rock_id_string($row["_id"]),
 						)));
 						?>">Download</a> <a href="<?php
+						$criteria = null;
+						if ($this->last_format == "json") {
+							$criteria = '{
+	"files_id": ' . (($row["_id"] instanceof MongoId) ? "ObjectId(\"" . addslashes($row["_id"]->__toString()) . "\")" : "\"" . addslashes($row["_id"]) . "\"") . '
+}';
+						}
+						else {
+							$criteria = 'array(
+	"files_id" => ' . (($row["_id"] instanceof MongoId) ? "new MongoId(\"" . addslashes($row["_id"]->__toString()) . "\")" : "\"" . addslashes($row["_id"]) . "\"") . '
+)';
+						}
 						h(url("collection.index", array(
 							"db" => $db,
 							"collection" => MCollection::chunksCollection($collection),
-							"criteria" => 'array(
-	"files_id" => ' . (($row["_id"] instanceof MongoId) ? "new MongoId(\"" . addslashes($row["_id"]->__toString()) . "\")" : "\"" . addslashes($row["_id"]) . "\"") . '
-)')));
+							"criteria" => $criteria)));
 						?>">Chunks</a>
 						<?php endif;?>
 					</div>	

@@ -1,4 +1,4 @@
-<script language="javascript">
+<script type="text/javascript">
 function checkAll(obj) {
 	$(".check_collection").attr("checked", obj.checked);
 }

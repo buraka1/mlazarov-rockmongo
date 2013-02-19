@@ -24,9 +24,16 @@ class DbController extends BaseController {
 		if (isset($ret["sizeOnDisk"])) {
 			$ret["diskSize"] = $this->_formatBytes($ret["sizeOnDisk"]);
 		}
+		if(isset($ret["dataSize"])) {
 		$ret["dataSize"] = $this->_formatBytes($ret["dataSize"]);
+		}
+		if(isset($ret["storageSize"])) {
 		$ret["storageSize"] = $this->_formatBytes($ret["storageSize"]);
+		}
+		if(isset($ret["indexSize"])) {
 		$ret["indexSize"] = $this->_formatBytes($ret["indexSize"]);
+		}
+
 		
 		$this->stats = array();
 		$this->stats["Size"] = $ret["diskSize"];
@@ -43,12 +50,24 @@ class DbController extends BaseController {
 					. $this->path("collection.index", array( "db" => $this->db, "collection" => $collection->getName())) . "\">" . $collection->getName() . "</a>";
 			}
 		}
+		if(isset($ret["objects"])) {
 		$this->stats["Objects"] = $ret["objects"];
+		}
+		if(isset($ret["dataSize"])) {
 		$this->stats["Data Size"] = $ret["dataSize"];
+		}
+		if(isset($ret["storageSize"])) {
 		$this->stats["Storage Size"] = $ret["storageSize"];
+		}
+		if(isset($ret["numEvents"])) {
 		$this->stats["Extents"] = $ret["numExtents"];
+		}
+		if(isset($ret["indexes"])) {
 		$this->stats["Indexes"] = $ret["indexes"];
+		}
+		if(isset($ret["indexSize"])) { 
 		$this->stats["Index Size"] = $ret["indexSize"];
+		}
 
 		$this->display();
 	}
@@ -100,10 +119,18 @@ class DbController extends BaseController {
 			}**/
 			
 			//start to transfer
-			$targetConnection = new Mongo("mongodb://" . $this->target_host . ":" . $this->target_port);
+			$targetOptions = array();
+			if ($this->target_auth) {
+				$targetOptions["username"] = $this->target_username;
+				$targetOptions["password"] = $this->target_password;
+			}
+			$targetConnection = new RMongo("mongodb://" . $this->target_host . ":" . $this->target_port, $targetOptions);
 			$targetDb = $targetConnection->selectDB($this->db);
 			if ($this->target_auth) {
+				// "authenticate" can only be used between 1.0.1 - 1.2.11
+				if (RMongo::compareVersion("1.0.1") >= 0 && RMongo::compareVersion("1.2.11") < 0) {
 				$targetDb->authenticate($this->target_username, $this->target_password);
+			}
 			}
 			$errors = array();
 			foreach ($this->selectedCollections as $collectionName) {
@@ -401,13 +428,13 @@ class DbController extends BaseController {
 	/** create new collection **/
 	public function doNewCollection() {
 		$this->db = xn("db");
-		$this->name = x("name");
+		$this->name = trim(xn("name"));
 		$this->isCapped = xi("is_capped");
 		$this->size = xi("size");
 		$this->max = xi("max");
 		
 		if ($this->isPost()) {
-			$db = new MongoDB($this->_mongo, $this->db);
+			$db = $this->_mongo->selectDB($this->db);
 			$db->createCollection($this->name, $this->isCapped, $this->size, $this->max);
 			$this->message = "New collection is created.";
 			
