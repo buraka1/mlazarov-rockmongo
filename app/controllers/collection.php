@@ -151,23 +151,11 @@ class CollectionController extends BaseController {
 		//read fields from collection
 		import("models.MCollection");
 		$this->nativeFields = MCollection::fields($db, $this->collection);
-		sort($this->nativeFields);
 		$this->queryFields = x("query_fields");
 		if (!is_array($this->queryFields)) {
 			$this->queryFields = array();
 		}
-
-		$this->useFreeform = x("use_freeform");
-		$this->freeformRaw = x("freeform");
-
-		if (isset($this->useFreeform) && $this->useFreeform == 'yes' && isset($this->freeformRaw) && $this->freeformRaw != '') {
-			$freeformTokenized = preg_split('/,\s*/', $this->freeformRaw);
-
-			if ($freeformTokenized[0] != '') {
-				$this->queryFields = array_merge($this->queryFields, $freeformTokenized);
-			}
-		}
-
+		
 		$this->indexFields = $db->selectCollection($this->collection)->getIndexInfo();
 		$this->recordsCount = $db->selectCollection($this->collection)->count();
 		foreach ($this->indexFields as $index => $indexField) {
@@ -645,7 +633,6 @@ class CollectionController extends BaseController {
 	
 	/** download file in GridFS **/
 	public function doDownloadFile() {
-		global $mime_types;
 		$this->db = xn("db");
 		$this->collection = xn("collection");
 		$this->id = xn("id");
@@ -893,7 +880,6 @@ window.parent.frames["left"].location.reload();
 			$this->max = xi("max");
 			
 			//rename current collection
-			p($this->isCapped, $this->size, $this->max);
 			$bkCollection = $this->collection . "_rockmongo_bk_" . uniqid();
 			$this->ret = $this->_mongo->selectDB($this->db)->execute('function (coll, newname, dropExists) { db.getCollection(coll).renameCollection(newname, dropExists);}', array( $this->collection, $bkCollection, true ));
 			if (!$this->ret["ok"]) {

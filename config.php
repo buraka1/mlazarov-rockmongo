@@ -8,7 +8,6 @@
  
 $MONGO = array();
 $MONGO["features"]["log_query"] = "off";//log queries
-//$MONGO["features"]["theme"] = "default";//theme
 $MONGO["features"]["theme"] = "tweaked";//theme
 $MONGO["features"]["plugins"] = "on";//plugins
 
@@ -19,33 +18,71 @@ $i = 0;
 * 
 * @see more details at http://code.google.com/p/rock-php/wiki/configuration
 */
-$MONGO["servers"][$i]["mongo_name"] = "Localhost";//mongo server name
-$MONGO["servers"][$i]["mongo_host"] = "127.0.0.1";//mongo host
-$MONGO["servers"][$i]["mongo_port"] = "27017";//mongo port
-$MONGO["servers"][$i]["mongo_timeout"] = 30;//mongo connection timeout
-//$MONGO["servers"][$i]["mongo_db"] = "MONGO_DATABASE";//default mongo db to connect, works only if mongo_auth=false
-//$MONGO["servers"][$i]["mongo_user"] = "MONGO_USERNAME";//mongo authentication user name, works only if mongo_auth=false
-//$MONGO["servers"][$i]["mongo_pass"] = "MONGO_PASSWORD";//mongo authentication password, works only if mongo_auth=false
-$MONGO["servers"][$i]["mongo_auth"] = false;//enable mongo authentication?
-
-$MONGO["servers"][$i]["control_auth"] = true;//enable control users, works only if mongo_auth=false
-$MONGO["servers"][$i]["control_users"]["admin"] = "admin";//one of control users [USERNAME]=PASSWORD, works only if mongo_auth=false
-
+$MONGO["servers"][$i]["mongo_timeout"] = 999999;//mongo connection timeout
 $MONGO["servers"][$i]["ui_only_dbs"] = "";//databases to display
 $MONGO["servers"][$i]["ui_hide_dbs"] = "";//databases to hide
 $MONGO["servers"][$i]["ui_hide_collections"] = "";//collections to hide
 $MONGO["servers"][$i]["ui_hide_system_collections"] = false;//if hide the system collections
-$i ++;
 
-/**
- * mini configuration for another mongo server
- */
-/**
-$MONGO["servers"][$i]["mongo_name"] = "Localhost2";
-$MONGO["servers"][$i]["mongo_host"] = "127.0.0.1";
-$MONGO["servers"][$i]["mongo_port"] = "27018";
-$MONGO["servers"][$i]["control_users"]["admin"] = "admin";
-$i ++;
-**/
+$MONGO["servers"][$i]["mongo_name"] = "[DEV] &nbsp;CRM &nbsp;&nbsp;&nbsp;&nbsp; (ammscrmdb) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.200.254";
+$MONGO["servers"][$i]["mongo_host"] = "192.168.200.254";
+$i++;
 
-?>
+$MONGO["servers"][$i]["mongo_name"] = "[DEV] &nbsp;iLom &nbsp;&nbsp;&nbsp; (ttmongo1/mongohvac1/mongo.site) 192.168.200.223";
+$MONGO["servers"][$i]["mongo_host"] = "192.168.200.223";
+$i++;
+
+$MONGO["servers"][$i]["mongo_name"] = "[TEST] CRM &nbsp;&nbsp;&nbsp;&nbsp; (ttmongo3:37017) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.200.185";
+$MONGO["servers"][$i]["mongo_host"] = "192.168.200.185";
+$MONGO["servers"][$i]["mongo_port"] = "37017";
+$i++;
+
+$MONGO["servers"][$i]["mongo_name"] = "[TEST] iLom &nbsp;&nbsp;&nbsp; (tstor5/mongo.site) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.1.55";
+$MONGO["servers"][$i]["mongo_host"] = "192.168.1.55";
+$i++;
+
+$MONGO["servers"][$i]["mongo_name"] = "[TEST] Triggers (ttmongo3:37017) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.200.185";
+$MONGO["servers"][$i]["mongo_host"] = "192.168.200.185";
+$MONGO["servers"][$i]["mongo_port"] = "37017";
+$i++;
+
+$MONGO["servers"][$i]["mongo_name"] = "[PROD] CRM &nbsp;&nbsp;&nbsp;&nbsp; (mongohvac1) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.10.191";
+$MONGO["servers"][$i]["mongo_host"] = "192.168.10.191";
+$i++;
+
+$MONGO["servers"][$i]["mongo_name"] = "[PROD] iLom &nbsp;&nbsp;&nbsp; (mongoilom1) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.10.194";
+$MONGO["servers"][$i]["mongo_host"] = "mongoilom1";
+$i++;
+
+$MONGO["servers"][$i]["mongo_name"] = "[PROD] Triggers (mongo1/mongo-triggers-1) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.10.197";
+$MONGO["servers"][$i]["mongo_host"] = "192.168.10.197";
+$i++;
+
+//$MONGO["servers"][$i]["mongo_name"] = "[????] Unknown &nbsp;(??????) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.200.13";
+//$MONGO["servers"][$i]["mongo_host"] = "192.168.200.13";
+//$i++;
+//
+//$MONGO["servers"][$i]["mongo_name"] = "[????] Unknown &nbsp;(??????) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.200.43";
+//$MONGO["servers"][$i]["mongo_host"] = "192.168.200.43";
+//$i++;
+
+//$MONGO["servers"][$i]["mongo_name"] = "TriggerEngine (tmongo2)";
+//$MONGO["servers"][$i]["mongo_host"] = "192.168.200.44";
+//$i ++;
+
+//$MONGO["servers"][$i]["mongo_name"] = "Boss-ttmongo4 (ttmongo4)";
+//$MONGO["servers"][$i]["mongo_host"] = "192.168.200.92";
+//$i++;
+
+//$MONGO["servers"][$i]["mongo_name"] = "The Dude";
+//$MONGO["servers"][$i]["mongo_host"] = "192.168.10.143";
+//$i++; 
+
+foreach ($MONGO["servers"] as &$server) {
+    $server["mongo_auth"] = false;
+    $server["control_auth"] = true;
+    $server["control_users"]["admin"] = "admin";
+    $server["control_users"]["dbadmin"] = '813$amms';
+    $server["mongo_timeout"] = 0;
+}
+

@@ -1,3 +1,11 @@
 *.swp
 favicon.ico
 config.php
+
+.buildpath
+
+.project
+
+.settings/org.eclipse.php.core.prefs
+
+.DS_Store
