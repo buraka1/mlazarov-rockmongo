@@ -22,8 +22,8 @@ class LoginController extends BaseController {
 		$this->hostIndex = xi("host");
 		$this->languages = rock_load_languages();
 		$this->expires = array(
-			3 => "3 " . rock_lang("hours"),
 			720 => "1 " . rock_lang("month"),
+			3 => "3 " . rock_lang("hours"),
 		);
 		$this->moreOptions = xi("more");
 		

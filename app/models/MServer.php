@@ -254,9 +254,9 @@ class MServer {
 			echo "Unable to connect MongoDB, please check your configurations. MongoDB said:" . $e->getMessage() . ".";
 			exit();
 		}
-		
+		$timeout = $this->_mongoTimeout;
 		// changing timeout to the new value
-		MongoCursor::$timeout = $this->_mongoTimeout;
+		// MongoCursor::$timeout = $this->_mongoTimeout;
 		
 		//auth by mongo
 		if ($this->_mongoAuth) {
